@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="../../static/style.css"></link>
+</head>
+
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Temperature</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="repositoryAlldata" type="java.util.List<Temperature>"*/-->
+    <tr th:each="data : ${repositoryAlldata}">
+        <!--/*@thymesVar id="id" type="java.time.OffsetDateTime"*/-->
+        <td th:text="${data.id}"></td>
+        <!--/*@thymesVar id="temperature" type="java.math.BigDecimal"*/-->
+        <td th:text="${data.temperature}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+
+</html>

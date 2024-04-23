@@ -1,0 +1,19 @@
+server:
+    port: 65000
+
+spring:
+    jackson:
+        time-zone: Europe/Moscow
+    application:
+        name: ArduinoServer
+    datasource:
+        url: jdbc:postgresql://185.248.17.143:7772/production
+        username: postgres
+        password: postgres
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        show-sql: true
+#    data:
+#        redis:
+#            host: 185.248.17.143
+#            port: 13555
