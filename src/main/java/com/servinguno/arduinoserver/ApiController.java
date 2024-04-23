@@ -1,6 +1,7 @@
 package com.servinguno.arduinoserver;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,11 @@ public class ApiController {
         ).toOffsetDateTime().plusHours(3);
         temperatureRepository.save(new Temperature(data, date));
         return date.minusHours(3);
+    }
+
+    @GetMapping("/data")
+    public java.util.List<Temperature> getDataFromDB(){
+        return temperatureRepository.findAll();
     }
 
     public static String extractNumbersAndDots(String input) {
