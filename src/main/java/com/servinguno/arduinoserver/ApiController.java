@@ -16,6 +16,7 @@ public class ApiController {
 
     @PostMapping("/message")
     public OffsetDateTime getDataFromArduino(@RequestBody String data) {
+        data = data.replaceAll("[^\\d]", "");
         System.out.println("Temp: " + data);
         var date = ZonedDateTime.now(
                 ZoneId.of("Europe/Moscow")
