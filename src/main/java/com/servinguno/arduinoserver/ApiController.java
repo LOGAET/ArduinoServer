@@ -1,10 +1,8 @@
 package com.servinguno.arduinoserver;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -29,8 +27,8 @@ public class ApiController {
     }
 
     @GetMapping("/data")
-    public java.util.List<Temperature> getDataFromDB(){
-        return temperatureRepository.findAll();
+    public java.util.List<Temperature> getDataFromDB(@RequestParam Integer limit){
+        return temperatureRepository.findLatestTemperatures(PageRequest.of(0, limit));
     }
 
     public static String extractNumbersAndDots(String input) {

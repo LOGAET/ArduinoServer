@@ -7,10 +7,81 @@
 
     <link rel="stylesheet" href="../../static/style.css">
 </head>
+<style>
+    /* Основные стили таблицы */
+    #temperatureTable {
+        width: 100%; /* Занимает всю доступную ширину */
+        border-collapse: collapse; /* Убирает двойные границы между ячейками */
+        margin-top: 20px; /* Добавляет отступ сверху */
+    }
 
+    /* Стили заголовков таблицы */
+    #temperatureTable thead th {
+        background-color: #4CAF50; /* Зеленый фон заголовков */
+        color: white; /* Белый цвет текста */
+        padding: 10px; /* Паддинг в ячейках */
+        border: 1px solid #ddd; /* Граница ячеек */
+        text-align: left; /* Выравнивание текста по левому краю */
+    }
+
+    /* Стили ячеек таблицы */
+    #temperatureTable tbody td {
+        padding: 8px; /* Паддинг в ячейках */
+        border: 1px solid #ddd; /* Граница ячеек */
+        text-align: left; /* Выравнивание текста по левому краю */
+    }
+
+    /* Стили строк таблицы при наведении */
+    #temperatureTable tbody tr:hover {
+        background-color: #f5f5f5; /* Серый фон при наведении */
+    }
+
+    /* Пользовательские стили для таблицы */
+    .table {
+        width: 100%; /* Ширина таблицы на всю доступную ширину */
+        max-width: 100%; /* Ограничение по максимальной ширине */
+        margin-bottom: 1rem;
+        background-color: transparent;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.75rem; /* Отступы внутри ячеек */
+        vertical-align: top; /* Выравнивание содержимого ячеек по верху */
+        border-top: 1px solid #dee2e6; /* Границы между ячейками */
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0,0,0,.05); /* Чередование цветов строк */
+    }
+
+    .table-hover tbody tr:hover {
+        color: #212529;
+        background-color: rgba(0,0,0,.075); /* Цвет при наведении на строку */
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+    @media (max-width: 768px) {
+        .table-responsive-sm {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+
+</style>
 <body>
 
-<table id="temperatureTable" class="display" style="width:100%">
+<table id="temperatureTable"  class="table table-striped table-bordered" style="width:100%">
     <thead>
     <tr>
         <th>Date</th>
@@ -20,7 +91,7 @@
     <tbody>
     <!--/*@thymesVar id="repositoryAlldata" type="java.util.List<Temperature>"*/-->
     <tr th:each="data : ${repositoryAlldata}">
-        <td th:text="${data.id}"></td>
+        <td th:text="${formatter.format(data.id)}"></td>
         <td th:text="${data.temperature}"></td>
     </tr>
     </tbody>
@@ -28,15 +99,58 @@
 
 
 
-<canvas id="temperatureChart" width="100px" height="50px"></canvas>
+<canvas id="temperatureChart" width="50px" height="10px"></canvas>
 
 
 </body>
+
+<label for="dataCount">Количество точек: <span id="dataCountValue">100</span></label>
+<input type="range" id="dataCount" min="1" max="500" value="100" step="1">
+
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        // Функция для обновления таблицы-->
+<!--        function updateTable() {-->
+<!--            $.ajax({-->
+<!--                url: '/data?limit=100', // Предполагается, что ваш API доступен по этому адресу-->
+<!--                method: 'GET',-->
+<!--                dataType: 'json',-->
+<!--                success: function(data) {-->
+<!--                    var tableBody = $('#temperatureTable tbody');-->
+<!--                    tableBody.empty(); // Очищаем текущие строки таблицы-->
+
+<!--                    // Добавляем новые строки в таблицу-->
+<!--                    data.forEach(function(item) {-->
+<!--                        var dateFormatted = new Intl.DateTimeFormat('ru-RU', {-->
+<!--                            year: 'numeric', month: 'long', day: 'numeric',-->
+<!--                            hour: '2-digit', minute: '2-digit', second: '2-digit'-->
+<!--                        }).format(new Date(item.id));-->
+
+<!--                        var row = `<tr>-->
+<!--                        <td>${dateFormatted}</td>-->
+<!--                        <td>${item.temperature}°C</td>-->
+<!--                    </tr>`;-->
+<!--                        tableBody.append(row);-->
+<!--                    });-->
+<!--                },-->
+<!--                error: function(error) {-->
+<!--                    console.error("Error fetching temperature data: ", error);-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+
+<!--        // Вызываем функцию updateTable каждые 5000 мс (5 секунд)-->
+<!--        setInterval(updateTable, 5000);-->
+
+<!--        // Вызовите функцию updateTable при первой загрузке страницы-->
+<!--        updateTable();-->
+<!--    });-->
+<!--</script>-->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const ctx = document.getElementById('temperatureChart').getContext('2d');
@@ -45,7 +159,7 @@
             data: {
                 labels: [], // Начальные метки времени пустые
                 datasets: [{
-                    label: 'Temperature over Time',
+                    label: 'Temperature',
                     data: [], // Начальные данные пустые
                     backgroundColor: 'rgba(3, 169, 244, 0.2)',
                     borderColor: 'rgba(3, 169, 244, 1)',
@@ -61,20 +175,37 @@
             }
         });
 
+        // Получаем ссылку на ползунок и метку
+        const slider = document.getElementById('dataCount');
+        const dataCountValue = document.getElementById('dataCountValue');
+
+        // Обновление текста метки и запрос данных при изменении значения ползунка
+        slider.oninput = function () {
+            dataCountValue.textContent = this.value;
+            fetchData();
+        };
+
         // Функция для запроса данных
         function fetchData() {
             $.ajax({
-                url: '/data', // Используйте созданный вами API
+                url: `/data?limit=${slider.value}`, // Используем значение ползунка для задания лимита
                 method: 'GET',
                 success: function(data) {
                     // Обновляем данные графика
-                    console.log(data);
-                    const labels = data.map(item => item.id);
+                    const labels = data.map(item => {
+                        const date = new Date(item.id);
+                        return new Intl.DateTimeFormat('ru-RU', {
+                            year: 'numeric', month: 'long', day: 'numeric',
+                            hour: '2-digit', minute: '2-digit', second: '2-digit'
+                        }).format(date);
+                    });
+
                     const temperatures = data.map(item => item.temperature);
 
-                    temperatureChart.data.labels = labels;
+                    // Ограничиваем данные графика значениями, выбранными ползунком
+                    temperatureChart.data.labels = labels.slice(-slider.value);
                     temperatureChart.data.datasets.forEach((dataset) => {
-                        dataset.data = temperatures;
+                        dataset.data = temperatures.slice(-slider.value);
                     });
                     temperatureChart.update();
                 },
@@ -83,10 +214,11 @@
                 }
             });
         }
-
         // Запускаем fetchData каждые 5000 миллисекунд (5 секунд)
         setInterval(fetchData, 5000);
     });
+
+
 
 </script>
 <script>
