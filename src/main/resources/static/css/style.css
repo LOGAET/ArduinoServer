@@ -1,0 +1,112 @@
+/* General styling for the body to improve typography and spacing */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+/* Styling for the table */
+#temperatureTable {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+th, td {
+    border: 1px solid #e0e0e0;
+    text-align: left;
+    padding: 12px;
+}
+
+th {
+    background-color: #009688;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Adding hover effect for rows */
+tr:hover {
+    background-color: #e0f7fa;
+}
+
+/* Chart container styling for better appearance */
+#temperatureChart {
+    background-color: white;
+    padding: 10px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Основные стили таблицы */
+#temperatureTable {
+    width: 100%; /* Занимает всю доступную ширину */
+    border-collapse: collapse; /* Убирает двойные границы между ячейками */
+    margin-top: 20px; /* Добавляет отступ сверху */
+}
+
+/* Стили заголовков таблицы */
+#temperatureTable thead th {
+    background-color: #4CAF50; /* Зеленый фон заголовков */
+    color: white; /* Белый цвет текста */
+    padding: 10px; /* Паддинг в ячейках */
+    border: 1px solid #ddd; /* Граница ячеек */
+    text-align: left; /* Выравнивание текста по левому краю */
+}
+
+/* Стили ячеек таблицы */
+#temperatureTable tbody td {
+    padding: 8px; /* Паддинг в ячейках */
+    border: 1px solid #ddd; /* Граница ячеек */
+    text-align: left; /* Выравнивание текста по левому краю */
+}
+
+/* Стили строк таблицы при наведении */
+#temperatureTable tbody tr:hover {
+    background-color: #f5f5f5; /* Серый фон при наведении */
+}
+
+/* Пользовательские стили для таблицы */
+.table {
+    width: 100%; /* Ширина таблицы на всю доступную ширину */
+    max-width: 100%; /* Ограничение по максимальной ширине */
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem; /* Отступы внутри ячеек */
+    vertical-align: top; /* Выравнивание содержимого ячеек по верху */
+    border-top: 1px solid #dee2e6; /* Границы между ячейками */
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05); /* Чередование цветов строк */
+}
+
+.table-hover tbody tr:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.075); /* Цвет при наведении на строку */
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+@media (max-width: 768px) {
+    .table-responsive-sm {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}

@@ -21,9 +21,9 @@ public class ApiController {
         System.out.println("Temp: " + data);
         var date = ZonedDateTime.now(
                 ZoneId.of("Europe/Moscow")
-        ).toOffsetDateTime().plusHours(3);
+        ).toOffsetDateTime();
         temperatureRepository.save(new Temperature(data, date));
-        return date.minusHours(3);
+        return date;
     }
 
     @GetMapping("/data")
